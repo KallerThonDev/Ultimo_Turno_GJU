@@ -1,4 +1,4 @@
-
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +11,10 @@ public class Menu_Manager : MonoBehaviour
     }
 
     // Método para salir del juego
-    public void QuitGame()
+    public void ExitGame()
     {
+        Debug.Log("Saliendo del juego...");
         Application.Quit();
+        EditorApplication.isPlaying = false;
     }
 }
