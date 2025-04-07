@@ -19,7 +19,7 @@ public class mainMenuController : MonoBehaviour
 
     public void SceneGame()
     {
-        StartCoroutine(LoadSceneAsync("SampleScene"));
+        StartCoroutine(LoadSceneAsync("Fase1_Mapa"));
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
