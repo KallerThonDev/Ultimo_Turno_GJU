@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class productos_DropArea : MonoBehaviour, dropArea
 {
-    [SerializeField] private GameObject canvaMinigame;
-    [SerializeField] private GameObject startObjetivo;
+    [SerializeField] private GameObject startObjetivo, finObjetivo;
     [SerializeField] public int numObjetivos;
     private int completedGoals = 0;
     public void OnDropProd(minigame_Prod producto)
@@ -15,8 +14,14 @@ public class productos_DropArea : MonoBehaviour, dropArea
 
         if (completedGoals == numObjetivos)
         {
-            canvaMinigame.SetActive(false);
+            Canvas[] allCanvases = FindObjectsOfType<Canvas>();
+
+            foreach (Canvas canvas in allCanvases)
+            {
+                canvas.gameObject.SetActive(false);
+            }
             startObjetivo.SetActive(false);
+            finObjetivo.SetActive(true);
         }
     }
 

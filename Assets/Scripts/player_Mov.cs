@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movimiento_Player : MonoBehaviour
+public class player_Mov : MonoBehaviour
 {
     private Rigidbody player;
     private float hMove, vMove;
@@ -28,7 +28,7 @@ public class Movimiento_Player : MonoBehaviour
     void Update()
     {
         hMove = Input.GetAxis("Horizontal");
-        vMove = Input.GetAxis("Vertical"); 
+        vMove = Input.GetAxis("Vertical");
 
         speed = 7.44f;
         playerInput = new Vector3(hMove, 0, vMove);
