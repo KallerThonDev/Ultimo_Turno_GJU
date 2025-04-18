@@ -13,6 +13,7 @@ public class Llave : MonoBehaviour
         {
             llaveActiva = true; // Cambia el estado de la variable a true
             Debug.Log("Objeto activado por el jugador.");
+
         }
     }
 }

@@ -14,6 +14,7 @@ public class Controlador_Monstruo : MonoBehaviour
     public float waitTime = 5f; // Tiempo de espera antes de spawnear
     public float stayTime = 5f; // Tiempo que permanece la entidad en la escena
     public float maxDistanceFromPlayer = 15f; // Distancia máxima que el jugador puede alejarse de la entidad antes de que desaparezca
+    public float maxDistanceClosePlayer;
 
     private GameObject currentEntity; // Referencia a la entidad que está actualmente en la escena
 
@@ -65,8 +66,8 @@ public class Controlador_Monstruo : MonoBehaviour
         float spawnX = player.position.x + Mathf.Cos(angle * Mathf.Deg2Rad) * randomDistance;
         float spawnZ = player.position.z + Mathf.Sin(angle * Mathf.Deg2Rad) * randomDistance;
 
-        // La altura (Y) permanece igual que la del jugador
-        Vector3 spawnPosition = new Vector3(spawnX, player.position.y, spawnZ);
+        // La altura (Y) permanece igual a 0
+        Vector3 spawnPosition = new Vector3(spawnX, 0, spawnZ);
 
         Debug.Log("Posición generada: " + spawnPosition);
         return spawnPosition;
@@ -84,6 +85,12 @@ public class Controlador_Monstruo : MonoBehaviour
             if (distance > maxDistanceFromPlayer)
             {
                 Debug.Log("La entidad ha desaparecido porque el jugador está demasiado lejos.");
+                Destroy(currentEntity); // Destruye la entidad
+                break; // Salimos del bucle para evitar seguir comprobando
+            }
+            if (distance < maxDistanceClosePlayer)
+            {
+                Debug.Log("La entidad ha desaparecido porque el jugador está demasiado cerca.");
                 Destroy(currentEntity); // Destruye la entidad
                 break; // Salimos del bucle para evitar seguir comprobando
             }

@@ -10,7 +10,7 @@ public class Catch_llave : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Verifica si el objeto que entró es el jugador
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("player"))
         {
             llaveInventario = true; // Cambia el estado de la variable a true
             Debug.Log("Objeto activado por el jugador.");
