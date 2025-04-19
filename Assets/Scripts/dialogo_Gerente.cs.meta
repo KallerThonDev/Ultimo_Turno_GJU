@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/dialogo_Gerente.cs.meta
 guid: ad90557147a456e4f9c6d5b954416c85
+========
+guid: 34def5a09db4c754bafaa0609690b047
+>>>>>>>> Antonio:Assets/Scripts/PlayerM.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
