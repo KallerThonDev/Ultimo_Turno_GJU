@@ -6,6 +6,10 @@ using System.Collections;
 
 public class Controlador_Monstruo : MonoBehaviour
 {
+    public AudioClip spawnSound; // El sonido que se reproducirá al aparecer
+    private AudioSource audioSource; // Fuente de audio del controlador
+    public float initialDelay = 8f;
+
     public GameObject entityPrefab; // Prefab de la entidad a spawnear
     public Transform player; // Referencia al jugador
     public float minSpawnDistance = 5f; // Distancia mínima de spawn
@@ -18,8 +22,20 @@ public class Controlador_Monstruo : MonoBehaviour
 
     private GameObject currentEntity; // Referencia a la entidad que está actualmente en la escena
 
+    public AudioClip scareSound; // El sonido de luces parpadeando
+    public Image blackScreen; // Arrastra la imagen negra del Canvas aquí
+    public float flickerDuration = 0.5f; // Duración de cada parpadeo
+    public int flickerCount = 3; // Número de parpadeos
+
     private void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        StartCoroutine(StartSpawnCycleAfterDelay()); // Inicia el ciclo de spawn
+    }
+
+    private IEnumerator StartSpawnCycleAfterDelay()
+    {
+        yield return new WaitForSeconds(initialDelay); // Espera el tiempo inicial
         StartCoroutine(SpawnCycle()); // Inicia el ciclo de spawn
     }
 
@@ -49,6 +65,19 @@ public class Controlador_Monstruo : MonoBehaviour
         // Instanciar el prefab en la posición calculada
         currentEntity = Instantiate(entityPrefab, spawnPosition, Quaternion.identity);
         Debug.Log("🎭 Entidad spawneada en: " + spawnPosition);
+
+        // Hacer que mire al jugador
+        Vector3 lookDirection = player.position - currentEntity.transform.position;
+        lookDirection.y = 0; // Mantener en el mismo plano horizontal
+        currentEntity.transform.rotation = Quaternion.LookRotation(lookDirection);
+
+        Debug.Log("🎭 Entidad spawneada en: " + spawnPosition);
+
+        // Reproducir el sonido de aparición
+        if (spawnSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(spawnSound);
+        }
 
         // Iniciar el chequeo de distancia en segundo plano
         StartCoroutine(CheckDistance());
@@ -91,12 +120,28 @@ public class Controlador_Monstruo : MonoBehaviour
             if (distance < maxDistanceClosePlayer)
             {
                 Debug.Log("La entidad ha desaparecido porque el jugador está demasiado cerca.");
+                StartCoroutine(FlickerBlackScreen()); // Activa el efecto de parpadeo
                 Destroy(currentEntity); // Destruye la entidad
                 break; // Salimos del bucle para evitar seguir comprobando
             }
 
             // Espera un breve tiempo antes de comprobar de nuevo
             yield return new WaitForSeconds(0.5f); // Ajusta el intervalo de tiempo de verificación según lo necesites
+        }
+    }
+
+    // Corrutina para el efecto de parpadeo
+    private IEnumerator FlickerBlackScreen()
+    {
+        audioSource.PlayOneShot(scareSound); // Reproduce el sonido
+        if (blackScreen == null) yield break;
+
+        for (int i = 0; i < flickerCount; i++)
+        {
+            blackScreen.gameObject.SetActive(true); // Enciende la pantalla
+            yield return new WaitForSeconds(flickerDuration);
+            blackScreen.gameObject.SetActive(false); // Apaga la pantalla
+            yield return new WaitForSeconds(flickerDuration);
         }
     }
 }

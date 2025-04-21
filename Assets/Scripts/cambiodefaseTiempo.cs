@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class cambiodefaseTiempo : MonoBehaviour
 {
      public string sceneToLoad;       // Nombre de la escena a la que se cambiará
-    public float timeToWait = 300f;  // Tiempo de espera en segundos (5 minutos)
+    public float timeToWait = 30f;  // Tiempo de espera en segundos (5 minutos)
     
     private bool taskActive = false; // Controla si el temporizador está activo
     private Coroutine countdownCoroutine;

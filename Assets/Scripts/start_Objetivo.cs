@@ -5,7 +5,7 @@ using UnityEngine;
 public class start_Objetivo : MonoBehaviour
 {
     public Transform cam;
-
+    private bool isPlayerNear = false;
 
     [SerializeField] private GameObject objetivo;
     [SerializeField] private GameObject marcaObjetivo;
@@ -19,13 +19,14 @@ public class start_Objetivo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isPlayerNear) return;
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit raycast;
             if(Physics.Raycast(cam.position, cam.forward, out raycast, 2.0f))
             {
                 canvaMinigame.SetActive(true); //Comenzar minijuego
-
             }
         }
     }
@@ -33,6 +34,7 @@ public class start_Objetivo : MonoBehaviour
     {
         if (other.gameObject.CompareTag("player"))
         {
+            isPlayerNear = true;
             marcaObjetivo.SetActive(true);
         }
     }
@@ -41,6 +43,7 @@ public class start_Objetivo : MonoBehaviour
     {
         if (other.gameObject.CompareTag("player"))
         {
+            isPlayerNear = false;
             marcaObjetivo.SetActive(false);
         }
     }
